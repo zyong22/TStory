@@ -18,11 +18,7 @@ public class UserController {
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
 //        System.out.println("requestDTO = " + requestDTO);
-
-        User sessionUser = userService.join(requestDTO);
-        // 회원가입 후 바로 로그인.....도 필요 없나요?
-        session.setAttribute("sessionUser", sessionUser);
-        
+        userService.join(requestDTO);
         return "redirect:/";
     }
 
@@ -40,8 +36,11 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
-//        System.out.println("requestDTO = " + requestDTO);
+        System.out.println("requestDTO 1 = " + requestDTO);
+
         User sessionUser = userService.login(requestDTO);
+        System.out.println("sessionUsddfsdffsddsfer = " + sessionUser);
+
         session.setAttribute("sessionUser", sessionUser);
 
         return "redirect:/";
@@ -57,6 +56,12 @@ public class UserController {
     public String updateForm() {
 
         return "user/updateForm";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
