@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexController {
 
     @GetMapping("/")
-    public String main() {
+    public String index() {
 
         return "main";
     }
@@ -36,27 +36,5 @@ public class IndexController {
         return "post/writeForm";
     }
 
-    @GetMapping("/join-form")
-    public String joinForm() {
 
-        return "user/joinForm";
-    }
-
-    @GetMapping("/login-form")
-    public String loginForm() {
-
-        return "user/loginForm";
-    }
-
-    @GetMapping("/user/password-reset-form")
-    public String passwordResetForm() {
-
-        return "user/passwordResetForm";
-    }
-
-    @GetMapping("/user/update-form")
-    public String updateForm() {
-
-        return "user/updateForm";
-    }
 }
