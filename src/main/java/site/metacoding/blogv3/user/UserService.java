@@ -11,16 +11,15 @@ public class UserService {
     private final UserJPARepository userRepo;
 
     @Transactional
-    public void join(UserRequest.JoinDTO requestDTO) {
-        userRepo.save(requestDTO.toEntity());
+    public User join(UserRequest.JoinDTO requestDTO) {
+        User user = userRepo.save(requestDTO.toEntity());
+        return user;
     }
 
     public User login(UserRequest.LoginDTO requestDTO) {
-        System.out.println("requestDTO 2= " + requestDTO);
         User user = userRepo.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword())
                 .orElseThrow(() -> new LoginFailException());
 
-        System.out.println("user3 = " + user);
         return user;
     }
 }
