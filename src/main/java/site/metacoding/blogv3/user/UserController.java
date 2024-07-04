@@ -16,8 +16,8 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
-        System.out.println("requestDTO = " + requestDTO);
-        
+//        System.out.println("requestDTO = " + requestDTO);
+
         User sessionUser = userService.join(requestDTO);
         // 회원가입 후 바로 로그인.....도 필요 없나요?
         session.setAttribute("sessionUser", sessionUser);
@@ -35,6 +35,13 @@ public class UserController {
     public String loginForm() {
 
         return "user/loginForm";
+    }
+
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO) {
+        System.out.println("requestDTO = " + requestDTO);
+//        userService.login(requestDTO);
+        return "redirect:/";
     }
 
     @GetMapping("/user/password-reset-form")
