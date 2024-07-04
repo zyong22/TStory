@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
@@ -39,8 +40,10 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
-        System.out.println("requestDTO = " + requestDTO);
-//        userService.login(requestDTO);
+//        System.out.println("requestDTO = " + requestDTO);
+        User sessionUser = userService.login(requestDTO);
+        session.setAttribute("sessionUser", sessionUser);
+
         return "redirect:/";
     }
 

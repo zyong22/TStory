@@ -3,6 +3,7 @@ package site.metacoding.blogv3.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.metacoding.blogv3._core.errors.exception.LoginFailException;
 
 @RequiredArgsConstructor
 @Service
@@ -15,7 +16,10 @@ public class UserService {
         return user;
     }
 
-//    public User login(UserRequest.LoginDTO requestDTO) {
-//
-//    }
+    public User login(UserRequest.LoginDTO requestDTO) {
+        User user = userRepo.findByUsernameAndPassword(requestDTO)
+                .orElseThrow(() -> new LoginFailException());
+
+        return user;
+    }
 }
