@@ -7,7 +7,7 @@
             <div class="my_error_box my_hidden">
 
             </div>
-            <form action="/join" method="post" onsubmit="return validation()">
+            <form action="/join" method="post">
                 <input id="username" class="my_auth_form_box_input" type="text" name="username" placeholder="유저네임"
                     maxlength="20" required />
                 <input id="password" class="my_auth_form_box_input" type="password" name="password" placeholder="비밀번호"
@@ -27,6 +27,5 @@
     <br />
 </div>
 
-<script src="/js/user/joinForm.js"></script>
 
 {{>/layout/footer}}
