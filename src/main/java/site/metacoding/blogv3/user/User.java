@@ -1,5 +1,6 @@
 package site.metacoding.blogv3.user;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,4 +27,14 @@ public class User {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+
+    @Builder
+    public User(Integer id, String username, String password, String email, LocalDateTime createdAt) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
 }
