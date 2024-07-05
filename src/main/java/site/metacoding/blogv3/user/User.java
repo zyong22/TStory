@@ -21,9 +21,6 @@ public class User {
     private String password;
     private String email;
 
-    // 오어스 로그인
-//    private String provider;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -35,5 +32,13 @@ public class User {
         this.password = password;
         this.email = email;
         this.createdAt = createdAt;
+    }
+
+    @Builder
+    public User(UserRequest.JoinDTO requestDTO) {
+        this.username = requestDTO.getUsername();
+        this.password = requestDTO.getPassword();
+        this.email = requestDTO.getEmail();
+        this.createdAt = LocalDateTime.now();
     }
 }

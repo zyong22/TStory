@@ -16,31 +16,28 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
-//        System.out.println("requestDTO = " + requestDTO);
-
-        User sessionUser = userService.join(requestDTO);
-        // 회원가입 후 바로 로그인....... 필요없나요?
-        session.setAttribute("sessionUser", sessionUser);
+        userService.join(requestDTO);
 
         return "redirect:/";
     }
 
+    // join폼 열기
     @GetMapping("/join-form")
     public String joinForm() {
 
         return "user/joinForm";
     }
 
+    // login폼 열기
     @GetMapping("/login-form")
     public String loginForm() {
 
         return "user/loginForm";
     }
 
+    // 로그인하기
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
-//        System.out.println("requestDTO 1 = " + requestDTO);
-
         User sessionUser = userService.login(requestDTO);
         session.setAttribute("sessionUser", sessionUser);
 
@@ -59,6 +56,7 @@ public class UserController {
         return "user/updateForm";
     }
 
+    // 로그아웃
     @GetMapping("/logout")
     public String logout() {
         session.invalidate();

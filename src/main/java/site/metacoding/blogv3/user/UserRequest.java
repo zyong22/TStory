@@ -16,13 +16,10 @@ public class UserRequest {
         private String password;
         private String email;
 
-        public User toEntity() {
-            return User.builder()
-                    .username(username)
-                    .password(password)
-                    .email(email)
-                    .build();
-
+        public JoinDTO(String username, String password, String email) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
         }
     }
 
