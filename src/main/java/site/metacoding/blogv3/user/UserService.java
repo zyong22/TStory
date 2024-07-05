@@ -15,9 +15,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public User login(UserRequest.LoginDTO requestDTO) {
         User user = userRepository.findByUsernameAndPassword(requestDTO.getUsername(), requestDTO.getPassword())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return user;
     }
+
 }

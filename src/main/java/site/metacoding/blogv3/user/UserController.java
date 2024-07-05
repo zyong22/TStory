@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RequiredArgsConstructor
@@ -14,6 +15,19 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
+    // join폼 열기
+    @GetMapping("/join-form")
+    public String joinForm() {
+        return "/user/joinForm";
+    }
+
+    // login폼 열기
+    @GetMapping("/login-form")
+    public String loginForm() {
+        return "/user/loginForm";
+    }
+
+    // 회원가입
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {
         userService.join(requestDTO);
@@ -21,39 +35,13 @@ public class UserController {
         return "redirect:/";
     }
 
-    // join폼 열기
-    @GetMapping("/join-form")
-    public String joinForm() {
-
-        return "user/joinForm";
-    }
-
-    // login폼 열기
-    @GetMapping("/login-form")
-    public String loginForm() {
-
-        return "user/loginForm";
-    }
-
-    // 로그인하기
+    // 로그인
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO) {
         User sessionUser = userService.login(requestDTO);
         session.setAttribute("sessionUser", sessionUser);
 
         return "redirect:/";
-    }
-
-    @GetMapping("/user/password-reset-form")
-    public String passwordResetForm() {
-
-        return "user/passwordResetForm";
-    }
-
-    @GetMapping("/user/update-form")
-    public String updateForm() {
-
-        return "user/updateForm";
     }
 
     // 로그아웃

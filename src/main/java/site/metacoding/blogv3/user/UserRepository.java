@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 
-    // 로그인용 쿼리메소드
-    Optional<User> findByUsernameAndPassword (@Param("username") String username, @Param("password") String password);
+    // 로그인
+    Optional<User> findByUsernameAndPassword (String username, String password);
 }
