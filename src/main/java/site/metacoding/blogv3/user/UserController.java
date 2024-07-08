@@ -1,11 +1,14 @@
 package site.metacoding.blogv3.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
+import java.net.http.HttpRequest;
 
 
 @RequiredArgsConstructor
@@ -14,6 +17,15 @@ public class UserController {
 
     private final HttpSession session;
     private final UserService userService;
+
+    // 비밀번호 변경
+    @GetMapping("/user/update")
+    public String updateForm(HttpServletRequest req) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if(sessionUser == null) throw new RuntimeException("로그인 하세요");
+        req.setAttribute("sessionUser",sessionUser);
+        return "/user/updateForm";
+    }
 
     // join폼 열기
     @GetMapping("/join-form")

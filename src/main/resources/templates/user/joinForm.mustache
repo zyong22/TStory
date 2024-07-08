@@ -4,18 +4,18 @@
     <div class="my_auth_box">
         <div class="my_auth_form_box">
             <div class="my_auth_form_box_title">JSotry</div>
-            <div class="my_error_box my_hidden">
-
+            <div id="error-box" class="my_error_box my_hidden">
+                <span id="error-message"></span>
             </div>
-            <form action="/join" method="post">
+            <form id="join-form" action="/join" method="post">
                 <input id="username" class="my_auth_form_box_input" type="text" name="username" placeholder="유저네임"
-                    maxlength="20" value="ssar1" required />
+                       maxlength="20" value="ssar1" required />
                 <input id="password" class="my_auth_form_box_input" type="password" name="password" placeholder="비밀번호"
-                    maxlength="20" value="1234" required />
-                <input id="same-password" class="my_auth_form_box_input" type="password" name="" placeholder="비밀번호 확인"
-                    maxlength="20" value="1234" required />
+                       maxlength="20" value="1234" required />
+                <input id="same-password" class="my_auth_form_box_input" type="password" name="confirm-password" placeholder="비밀번호 확인"
+                       maxlength="20" value="1234" required />
                 <input class="my_auth_form_box_input" type="email" name="email" placeholder="이메일" maxlength="60"
-                    value="ssar1@nate.com" required />
+                       value="ssar1@nate.com" required />
                 <button type="submit" class="my_secondary_btn">회원가입</button>
             </form>
             <div class="my_auth_form_box_link">
@@ -27,5 +27,28 @@
     <br />
 </div>
 
-
 {{>/layout/footer}}
+
+<script>
+    document.getElementById('password').addEventListener('keyup', checkPasswordMatch);
+    document.getElementById('same-password').addEventListener('keyup', checkPasswordMatch);
+
+    function checkPasswordMatch() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('same-password').value;
+        const errorBox = document.getElementById('error-box');
+        const errorMessage = document.getElementById('error-message');
+
+        if (password !== confirmPassword) {
+            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
+            errorBox.classList.remove('my_hidden');
+        } else if (password == confirmPassword){
+            errorMessage.textContent = '비밀번호 확인 완료.';
+            errorBox.classList.remove('my_hidden');
+        }
+        else {
+            errorMessage.textContent = '';
+            errorBox.classList.add('my_hidden');
+        }
+    }
+</script>
