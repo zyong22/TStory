@@ -3,10 +3,11 @@ package site.metacoding.blogv3.user;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
 
@@ -18,12 +19,28 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
-    // 비밀번호 변경
-    @GetMapping("/user/update")
-    public String updateForm(HttpServletRequest req) {
+    // 비밀번호 변경하기
+    @PutMapping("/user/update")
+    public ResponseEntity<String> updateUser(@RequestBody UserRequest.UpdatePasswordDTO updateDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null) throw new RuntimeException("로그인 하세요");
-        req.setAttribute("sessionUser",sessionUser);
+        try {
+            userService.update(sessionUser.getId(), updateDTO);
+            session.invalidate(); // 로그아웃 시키고 다시 로그인 폼
+            return ResponseEntity.ok().body("{\"message\": \"비밀번호 변경 완료\"}");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\": \"" + e.getMessage() + "\"}");
+        }
+    }
+
+    // 비밀번호 변경 폼 열기
+    @GetMapping("/user/updateFrom")
+    public String updateForm(Model model) throws Exception {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        UserResponse.ShowUpdateDTO updateDTO = userService.showUpdate(sessionUser.getId());
+
+        model.addAttribute("user", updateDTO);
+
         return "/user/updateForm";
     }
 

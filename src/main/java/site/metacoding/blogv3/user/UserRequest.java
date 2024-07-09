@@ -17,4 +17,9 @@ public class UserRequest {
         private String email;
     }
 
+    @Data
+    public static class UpdatePasswordDTO {
+        private String oldPassword;
+        private String newPassword;
+    }
 }
