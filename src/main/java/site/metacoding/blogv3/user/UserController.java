@@ -19,6 +19,12 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
+    // 퀼 에디터 테스트용
+//    @PostMapping("/user/write")
+//    public @ResponseBody String test(){
+//
+//    }
+
     // 유저네임 중복체크
     @GetMapping("/user/check")
     public ResponseEntity<?> check(@RequestParam String username) {
@@ -62,6 +68,12 @@ public class UserController {
     @GetMapping("/login-form")
     public String loginForm() {
         return "/user/loginForm";
+    }
+
+    // write폼 열기
+    @GetMapping("/write-form")
+    public String writeForm() {
+        return "/post/writeFormTest";
     }
 
     // 회원가입
