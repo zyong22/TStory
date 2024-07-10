@@ -4,10 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+    public boolean checkId(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isPresent();
+    }
 
     @Transactional
     public void join(UserRequest.JoinDTO requestDTO) {
@@ -43,4 +50,5 @@ public class UserService {
         user.setPassword(updateDTO.getNewPassword());
         userRepository.save(user);
     }
+
 }

@@ -4,16 +4,21 @@
     <div class="my_auth_box">
         <div class="my_auth_form_box">
             <div class="my_auth_form_box_title">JSotry</div>
-            <div id="error-box" class="my_error_box my_hidden">
-                <span id="error-message"></span>
-            </div>
             <form id="join-form" action="/join" method="post">
-                <input id="username" class="my_auth_form_box_input" type="text" name="username" placeholder="유저네임"
+                <input id="username" class="my_auth_form_box_input" type="text" name="username" placeholder="아이디"
                        maxlength="20" value="ssar1" required />
+
+                <!-- 아이디 체크용 -->
+                <div id="usernameMessage" class="my_hidden"></div>
+
                 <input id="password" class="my_auth_form_box_input" type="password" name="password" placeholder="비밀번호"
                        maxlength="20" value="1234" required />
                 <input id="same-password" class="my_auth_form_box_input" type="password" name="confirm-password" placeholder="비밀번호 확인"
                        maxlength="20" value="1234" required />
+
+                <!-- 비밀번호 체크용 -->
+                <div id="pwCheck" class="my_hidden"></div>
+
                 <input class="my_auth_form_box_input" type="email" name="email" placeholder="이메일" maxlength="60"
                        value="ssar1@nate.com" required />
                 <button type="submit" class="my_secondary_btn">회원가입</button>
@@ -30,25 +35,62 @@
 {{>/layout/footer}}
 
 <script>
+    // 비밀번호 2개 맞는지 체크
     document.getElementById('password').addEventListener('keyup', checkPasswordMatch);
     document.getElementById('same-password').addEventListener('keyup', checkPasswordMatch);
 
     function checkPasswordMatch() {
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('same-password').value;
-        const errorBox = document.getElementById('error-box');
-        const errorMessage = document.getElementById('error-message');
+        const pwCheck = document.getElementById('pwCheck');
 
         if (password !== confirmPassword) {
-            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
-            errorBox.classList.remove('my_hidden');
-        } else if (password == confirmPassword){
-            errorMessage.textContent = '비밀번호 확인 완료.';
-            errorBox.classList.remove('my_hidden');
+            pwCheck.textContent = '비밀번호가 일치하지 않습니다.';
+            pwCheck.style.color = 'red'
+            pwCheck.classList.remove('my_hidden');
+        } else {
+            pwCheck.textContent = '비밀번호 확인 완료.';
+            pwCheck.style.color = 'green';
+            pwCheck.classList.remove('my_hidden');
         }
-        else {
-            errorMessage.textContent = '';
-            errorBox.classList.add('my_hidden');
+
+    }
+
+    // 아이디 중복 체크
+    document.getElementById('username').addEventListener('keyup', checkUsername);
+
+    function checkUsername() {
+        const username = document.getElementById('username').value;
+        const usernameMessage = document.getElementById('usernameMessage');
+
+        if (username) {
+            fetch(`/user/check?username=${username}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data) {
+                            usernameMessage.textContent = '사용 가능한 아이디입니다.';
+                            usernameMessage.style.color = 'green';
+                        } else {
+                            usernameMessage.textContent = '이미 사용 중인 아이디입니다.';
+                            usernameMessage.style.color = 'red';
+                        }
+                        usernameMessage.classList.remove('my_hidden');
+                    })
+                    .catch(error => {
+                        console.error('Error checking username:', error);
+                        usernameMessage.textContent = '아이디 확인 중 오류가 발생했습니다.';
+                        usernameMessage.style.color = 'red';
+                        usernameMessage.classList.remove('my_hidden');
+                    });
+        } else {
+            usernameMessage.textContent = '';
+            usernameMessage.classList.add('my_hidden');
         }
     }
+
 </script>

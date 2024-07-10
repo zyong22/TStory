@@ -19,6 +19,14 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
+    // 유저네임 중복체크
+    @GetMapping("/user/check")
+    public ResponseEntity<?> check(@RequestParam String username) {
+        boolean check = userService.checkId(username);
+
+        return ResponseEntity.ok(check);
+    }
+
     // 비밀번호 변경하기
     @PutMapping("/user/update")
     public ResponseEntity<String> updateUser(@RequestBody UserRequest.UpdatePasswordDTO updateDTO) {
