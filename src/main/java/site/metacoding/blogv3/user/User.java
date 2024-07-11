@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,8 +19,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true, nullable = false)
     private String username;
+
     private String password;
+
+    @Column(unique = true, nullable = false)
     private String email;
 
     @CreationTimestamp
