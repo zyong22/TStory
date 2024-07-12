@@ -27,6 +27,10 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    // 이메일 인증 확인
+    @Column(nullable = false)
+    private boolean emailConfirm;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
