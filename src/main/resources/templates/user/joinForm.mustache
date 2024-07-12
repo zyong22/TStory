@@ -1,5 +1,14 @@
 {{>/layout/main-header}}
+<style>
+    .my_auth_form_box_input,
+    .my_secondary_btn {
+        margin: 5px;
+    }
 
+    .my_hidden {
+        display: none;
+    }
+</style>
 <div class="container">
     <div class="my_auth_box">
         <div class="my_auth_form_box">
@@ -19,9 +28,17 @@
                 <!-- 비밀번호 체크용 -->
                 <div id="pwCheck" class="my_hidden"></div>
 
-                <input class="my_auth_form_box_input" type="email" name="email" placeholder="이메일" maxlength="60"
-                       value="ssar1@nate.com" required />
-                <button id="join-btn" type="submit" class="my_secondary_btn">회원가입</button>
+                <input id="email" class="my_auth_form_box_input" type="email" name="email" placeholder="이메일" maxlength="60"
+                       value="wndyd4318@gmail.com" required />
+                <button id="email-check-btn" type="button" class="my_secondary_btn">이메일 인증</button>
+
+                <!-- 이메일 인증 관련 요소 -->
+                <div id="email-check-div" class="form-group my_hidden">
+                    <input id="email-check-code" class="my_auth_form_box_input" type="text" name="verification-code" placeholder="인증번호 입력" maxlength="6" />
+                    <button id="verify-code-btn" type="button" class="my_secondary_btn">인증번호 확인</button>
+                </div>
+
+                <button id="join-btn" type="submit" class="my_secondary_btn" disabled>회원가입</button>
             </form>
             <div class="my_auth_form_box_link">
                 <div><a href="/login-form">로그인</a></div>
@@ -33,6 +50,43 @@
 </div>
 
 <script>
+    // 이메일 인증 버튼 누르면 인증 요소 나오게
+    $('#email-check-btn').click(function() {
+        $('#email-check-div').removeClass('my_hidden');
+    });
+
+    let emailCode;
+
+    // 이메일 인증 날리기
+    $('#email-check-btn').on('click', async function () {
+
+        const email = $('#email').val();
+
+        try {
+            let response = await fetch('/email/send?email=' + email, {
+                method: 'GET',
+            });
+
+            if (response.ok) {
+                // 변수에 인증 코드 값 저장
+                emailCode = await response.text();
+                alert('인증번호가 이메일로 전송되었습니다.' + emailCode);
+            } else {
+                throw new Error('이메일 전송 실패.');
+            }
+        } catch (e) {
+            alert(e.message || '이메일 인증 중 오류가 발생했습니다.');
+        }
+    });
+
+    // 이메일 인증 확인하기
+    $('#verify-code-btn').on('click', function (){
+        const inputCode = $('#email-check-code').val();
+
+
+    })
+
+
     // 비밀번호 2개 맞는지 체크
 
     // 둘 다 같음
@@ -46,10 +100,6 @@
             $('#pwCheck').text('비밀번호가 일치하지 않습니다')
                     .css('color','red')
                     .removeClass('my_hidden')
-
-            // pwCheck.textContent = '비밀번호가 일치하지 않습니다.';
-            // pwCheck.style.color = 'red'
-            // pwCheck.classList.remove('my_hidden');
         } else {
             $('#pwCheck').text('비밀번호 확인 완료')
                    .css('color','green')

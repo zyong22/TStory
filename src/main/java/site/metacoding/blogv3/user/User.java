@@ -29,18 +29,18 @@ public class User {
 
     // 이메일 인증 확인
     @Column(nullable = false)
-    private boolean emailConfirm;
+    private Boolean emailConfirm;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-
     @Builder
-    public User(Integer id, String username, String password, String email, LocalDateTime createdAt) {
+    public User(Integer id, String username, String password, String email, Boolean emailConfirm, LocalDateTime createdAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.emailConfirm = emailConfirm;
         this.createdAt = createdAt;
     }
 

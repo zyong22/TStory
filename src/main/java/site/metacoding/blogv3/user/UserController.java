@@ -29,7 +29,6 @@ public class UserController {
     @PostMapping("/user/check")
     public ResponseEntity<?> check(@RequestBody UserRequest.CheckIdDTO checkId ) {
         boolean check = userService.checkId(checkId.getUsername());
-        System.out.println("전달받은 아이디" + checkId.getUsername());
         return ResponseEntity.ok(check);
     }
 
