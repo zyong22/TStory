@@ -19,12 +19,6 @@ public class UserController {
     private final HttpSession session;
     private final UserService userService;
 
-    // 퀼 에디터 테스트용
-//    @PostMapping("/user/write")
-//    public @ResponseBody String test(){
-//
-//    }
-
     // 유저네임 중복체크
     @PostMapping("/user/check")
     public ResponseEntity<?> check(@RequestBody UserRequest.CheckIdDTO checkId ) {
@@ -72,7 +66,7 @@ public class UserController {
     // write폼 열기
     @GetMapping("/write-form")
     public String writeForm() {
-        return "/post/writeFormTest";
+        return "/post/writeForm";
     }
 
     // 회원가입
