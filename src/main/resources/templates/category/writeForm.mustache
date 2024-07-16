@@ -4,13 +4,36 @@
     <div class="my_auth_box">
         <div class="my_auth_form_box">
             <div class="my_auth_form_box_title">JSotry</div>
-            <form action="/s/category" method="POST">
-                <input class="my_auth_form_box_input" type="text" name="title" placeholder="카테고리명" />
-                <button type="submit" class="my_secondary_btn">등록</button>
+            <form action="/category/add" method="POST">
+                <input id = "category" class="my_auth_form_box_input" type="text" name="title" placeholder="카테고리명" />
+                <button id="category-btn" type="button" class="my_secondary_btn">등록</button>
             </form>
         </div>
     </div>
     <br />
 </div>
+
+<script>
+    $('#category-btn').on('click', async function() {
+        const data = {
+            categoryName: $('#category').val()
+        };
+
+        let response = await fetch('/category/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok){
+            alert('카테고리 등록 성공')
+        } else{
+            throw new Error('인증 실패');
+        }
+    })
+
+</script>
 
 {{>/layout/footer}}
