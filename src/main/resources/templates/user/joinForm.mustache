@@ -50,17 +50,57 @@
 </div>
 
 <script>
+    // 회원가입 버튼 활성화
+    function checkFormValidity() {
+        // 모든 필드의 유효성을 검사하여 버튼 활성화
+        if ($('#usernameMessage').text() === '사용 가능한 아이디입니다.' && $('#pwCheck').text() === '비밀번호 확인 완료'){
+            $('#join-btn').prop('disabled', false).css("background", "green");
+        } else {
+            $('#join-btn').prop('disabled', true);
+        }
+    }
+
+    // 이메일 인증 확인하기
+    $('#verify-code-btn').on('click', async function () {
+
+        // 입력한 인증번호
+        const data = {
+            inputCode: $('#email-check-code').val()
+        };
+
+        try {
+            let response = await fetch('/email/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                let result = await response.json();
+                alert(result.message || '인증 성공');
+
+                checkFormValidity();
+
+            } else {
+                let result = await response.json();
+                throw new Error(result.error || '인증 실패');
+            }
+        } catch(e) {
+            alert(e.message || '아이디 확인 중 오류 발생')
+        }
+    });
+
     // 이메일 인증 버튼 누르면 인증 요소 나오게
     $('#email-check-btn').click(function() {
         $('#email-check-div').removeClass('my_hidden');
     });
 
-    let emailCode;
-
     // 이메일 인증 날리기
     $('#email-check-btn').on('click', async function () {
 
-        const email = $('#email').val();
+        const email = $('#email').val()
 
         try {
             let response = await fetch('/email/send?email=' + email, {
@@ -68,9 +108,7 @@
             });
 
             if (response.ok) {
-                // 변수에 인증 코드 값 저장
-                emailCode = await response.text();
-                alert('인증번호가 이메일로 전송되었습니다.' + emailCode);
+                alert('인증번호가 이메일로 전송되었습니다.');
             } else {
                 throw new Error('이메일 전송 실패.');
             }
@@ -78,13 +116,6 @@
             alert(e.message || '이메일 인증 중 오류가 발생했습니다.');
         }
     });
-
-    // 이메일 인증 확인하기
-    $('#verify-code-btn').on('click', function (){
-        const inputCode = $('#email-check-code').val();
-
-
-    })
 
 
     // 비밀번호 2개 맞는지 체크
@@ -96,14 +127,18 @@
     // input -> 복붙같은 동작도 감지함
     $('#password, #same-password').on('input', checkPasswordMatch);
     function checkPasswordMatch() {
-        if ($('#password').val() !== $('#same-password').val()) {
+        if( $('#password').val() === '' || $('#same-password').val() === ''){
+            $('#pwCheck').text('비밀번호를 입력해주세요')
+                    .css('color','red')
+                    .removeClass('my_hidden');
+        } else if ($('#password').val() !== $('#same-password').val()) {
             $('#pwCheck').text('비밀번호가 일치하지 않습니다')
                     .css('color','red')
-                    .removeClass('my_hidden')
+                    .removeClass('my_hidden');
         } else {
             $('#pwCheck').text('비밀번호 확인 완료')
                    .css('color','green')
-                   .removeClass('my_hidden')
+                   .removeClass('my_hidden');
         }
     }
 
@@ -128,12 +163,11 @@
 
                 let responseBody = await response.json();
 
+                // 사용 가능 불가능일때 true false 속성 추가
                 if (!responseBody) {
                     $('#usernameMessage').text('사용 가능한 아이디입니다.').css('color', 'green').show();
-                    $('#join-btn').prop('disabled', false);
                 } else {
                     $('#usernameMessage').text('이미 사용 중인 아이디입니다.').css('color', 'red').show();
-                    $('#join-btn').prop('disabled', true);
                 }
             } else {
                 $('#usernameMessage').hide();
@@ -143,41 +177,6 @@
             alert(e.message || '아이디 확인 중 오류 발생')
         }
     });
-
-
-    // function checkUsername() {
-    //     const username = document.getElementById('username').value;
-    //     const usernameMessage = document.getElementById('usernameMessage');
-    //
-    //     if (username) {
-    //         fetch(`/user/check?username=${username}`)
-    //                 .then(response => {
-    //                     if (!response.ok) {
-    //                         throw new Error('Network response was not ok');
-    //                     }
-    //                     return response.json();
-    //                 })
-    //                 .then(data => {
-    //                     if (!data) {
-    //                         usernameMessage.textContent = '사용 가능한 아이디입니다.';
-    //                         usernameMessage.style.color = 'green';
-    //                     } else {
-    //                         usernameMessage.textContent = '이미 사용 중인 아이디입니다.';
-    //                         usernameMessage.style.color = 'red';
-    //                     }
-    //                     usernameMessage.classList.remove('my_hidden');
-    //                 })
-    //                 .catch(error => {
-    //                     console.error('Error checking username:', error);
-    //                     usernameMessage.textContent = '아이디 확인 중 오류가 발생했습니다.';
-    //                     usernameMessage.style.color = 'red';
-    //                     usernameMessage.classList.remove('my_hidden');
-    //                 });
-    //     } else {
-    //         usernameMessage.textContent = '';
-    //         usernameMessage.classList.add('my_hidden');
-    //     }
-    // }
 
 </script>
 

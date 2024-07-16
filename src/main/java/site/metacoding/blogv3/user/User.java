@@ -27,20 +27,15 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    // 이메일 인증 확인
-    @Column(nullable = false)
-    private Boolean emailConfirm;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Builder
-    public User(Integer id, String username, String password, String email, Boolean emailConfirm, LocalDateTime createdAt) {
+    public User(Integer id, String username, String password, String email, LocalDateTime createdAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.emailConfirm = emailConfirm;
         this.createdAt = createdAt;
     }
 

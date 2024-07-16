@@ -1,2 +1,2 @@
-INSERT INTO user_tb (username, password, email, created_at, EMAIL_CONFIRM) VALUES ('qwer', '123', '123@nate.com', now(), true);
-INSERT INTO user_tb (username, password, email, created_at, EMAIL_CONFIRM) VALUES ('ssar', '1234', 'ssar@nate.com', now(), true);
+INSERT INTO user_tb (username, password, email, created_at) VALUES ('qwer', '123', '123@nate.com', now());
+INSERT INTO user_tb (username, password, email, created_at) VALUES ('ssar', '1234', 'ssar@nate.com', now());
