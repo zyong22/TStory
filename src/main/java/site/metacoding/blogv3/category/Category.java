@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer categoryId;
 
     private String categoryName;
 
@@ -27,8 +27,8 @@ public class Category {
     private LocalDateTime createdAt;
 
     @Builder
-    public Category(Integer id, String categoryName, User user, LocalDateTime createdAt) {
-        this.id = id;
+    public Category(Integer categoryId, String categoryName, User user, LocalDateTime createdAt) {
+        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.user = user;
         this.createdAt = createdAt;

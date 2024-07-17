@@ -10,4 +10,8 @@ public class CategoryRequest {
         private String categoryName;
     }
 
+    @Data
+    public static class allCategoryDTO{
+        private String categoryName;
+    }
 }

@@ -14,9 +14,9 @@
     <form id="hello" action="/post/write" method="post" enctype="multipart/form-data" onsubmit="return getQuill()">
         <div class="form-group">
             <select class="form-control" name="categoryId">
-
-                <option value="1">일반</option>
-
+                {{#categoryList}}
+                <option value={{categoryId}}>{{categoryName}}</option>
+                {{/categoryList}}
             </select>
         </div>
         <input type="text" placeholder="Enter Title" name="title" class="form-control">

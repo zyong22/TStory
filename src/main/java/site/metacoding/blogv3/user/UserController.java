@@ -63,12 +63,6 @@ public class UserController {
         return "/user/loginForm";
     }
 
-    // write폼 열기
-    @GetMapping("/write-form")
-    public String writeForm() {
-        return "/post/writeForm";
-    }
-
     // 회원가입
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO) {

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class EmailService {
     private static final int CODE_LENGTH = 6;
 
     // 메일 보낸 후 코드 반환
+    @Transactional
     public String sendEmail(String email) {
         String code = checkRandomCode();
         SimpleMailMessage message = new SimpleMailMessage();
@@ -29,7 +31,8 @@ public class EmailService {
     }
 
     // 6자리 랜덤수 String 변환
-    private String checkRandomCode() {
+    @Transactional
+    public String checkRandomCode() {
         StringBuilder code = new StringBuilder(CODE_LENGTH);
 
         for (int i = 0; i < CODE_LENGTH; i++) {

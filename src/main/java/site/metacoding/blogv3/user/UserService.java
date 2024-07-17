@@ -11,6 +11,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+    @Transactional
     public boolean checkId(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         return user.isPresent();

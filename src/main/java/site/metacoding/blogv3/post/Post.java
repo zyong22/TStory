@@ -1,19 +1,23 @@
-package site.metacoding.blogv3.Community;
+package site.metacoding.blogv3.post;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import site.metacoding.blogv3.category.Category;
+import site.metacoding.blogv3.reply.Reply;
 import site.metacoding.blogv3.user.User;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
-@Table(name = "comm_tb")
+@Table(name = "post_tb")
 @Entity
-public class Comm {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +32,23 @@ public class Comm {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Reply> replyList = new ArrayList<>();
+
     @Builder
-    public Comm(Integer id, String title, String content, User user, Boolean isPostOwner, LocalDateTime createdAt) {
+    public Post(Integer id, String title, String content, User user, Category category, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.user = user;
+        this.category = category;
         this.createdAt = createdAt;
     }
 }
