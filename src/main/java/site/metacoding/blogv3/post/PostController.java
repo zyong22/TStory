@@ -2,11 +2,12 @@ package site.metacoding.blogv3.post;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import site.metacoding.blogv3.category.Category;
 import site.metacoding.blogv3.category.CategoryService;
 import site.metacoding.blogv3.user.User;
@@ -30,6 +31,25 @@ public class PostController {
         return "/post/detail";
     }
 
+    // list폼 열기
+    @GetMapping("/list-form")
+    public String postList(Model model, @PageableDefault(size = 5) Pageable pageable) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        Page<Post> postPage = postService.findPost(sessionUser.getId(), pageable);
+        model.addAttribute("postPage", postPage);
+
+        return "/post/list";
+    }
+
+    // 열어버리면서 바로 그려버리기, 난 이렇게 하고 싶었어..
+    @GetMapping("/list-form/ajax")
+    public @ResponseBody Page<Post> postListAjax(Model model, @PageableDefault(size = 5) Pageable pageable) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        Page<Post> postPage = postService.findPost(sessionUser.getId(), pageable);
+
+        return postPage; // json 컨버팅(lazy loading) -> buffer에 담아서 응답!!
+    }
+
     // 글쓰기
     @PostMapping("/post/write")
     public String writeTest(PostRequest.AddPostDTO postDTO) {
@@ -37,16 +57,6 @@ public class PostController {
         postService.savePost(sessionUser.getId(), postDTO);
 
         return "redirect:/list-form";
-    }
-
-    // list폼 열기
-    @GetMapping("/list-form")
-    public String commList(Model model) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        List<Post> posts = postService.findPost(sessionUser.getId());
-        model.addAttribute("posts", posts);
-
-        return "/post/list";
     }
 
     // write폼 열기

@@ -22,11 +22,12 @@ public class CategoryController {
         return "category/writeForm";
     }
 
+    // 카테고리 등록
     @PostMapping("/category/save")
     public String save(String categoryName, Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
         categoryService.saveCategory(sessionUser.getId(), categoryName);
 
-        return "/post/writeForm";
+        return "redirect:/write-form";
     }
 }

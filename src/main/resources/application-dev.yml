@@ -8,6 +8,9 @@ server:
   port: 8080
 
 spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   mustache:
     servlet:
       expose-session-attributes: true
@@ -39,7 +42,7 @@ spring:
         format_sql: true
     #        default_batch_fetch_size: 10
     defer-datasource-initialization: true
-    open-in-view: false
+    open-in-view: true
 
   servlet:
     multipart:
@@ -47,4 +50,11 @@ spring:
       max-file-size: 2MB
       max-request-size: 10MB
 
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: wndyd4318@gmail.com
+    password: mjti jnrr azjo idwn
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

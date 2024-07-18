@@ -1,6 +1,8 @@
 package site.metacoding.blogv3.post;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.metacoding.blogv3.category.Category;
@@ -45,10 +47,8 @@ public class PostService {
 
     // 게시글 찾아오기
     @Transactional
-    public List<Post> findPost(Integer id) {
-        List<Post> posts = postRepository.findByUserId(id);
-        // 최신순으로 정렬할거니까 역정렬
-        Collections.reverse(posts);
+    public Page<Post> findPost(Integer id, Pageable pageable) {
+        Page<Post> posts = postRepository.findByUserId(id, pageable);
 
         return posts;
     }
