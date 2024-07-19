@@ -2,12 +2,30 @@ package site.metacoding.blogv3.post;
 
 import lombok.Data;
 import site.metacoding.blogv3.reply.Reply;
+import site.metacoding.blogv3.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostResponse {
 
+    // 유저 게시글 리스트 DTO
+    @Data
+    public static class UserPostDTO {
+        private Integer id;
+        private String title;
+        private String content;
+        private User user;
+
+        public UserPostDTO(Integer id, String title, String content, User user) {
+            this.id = id;
+            this.title = title;
+            this.content = content;
+            this.user = user;
+        }
+    }
+
+    // 게시글 + 댓글 DTO
     @Data
     public static class PostDetailDTO {
         private PostDTO post;

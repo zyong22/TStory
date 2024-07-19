@@ -8,9 +8,6 @@ server:
   port: 8080
 
 spring:
-  jackson:
-    serialization:
-      fail-on-empty-beans: false
   mustache:
     servlet:
       expose-session-attributes: true
@@ -42,7 +39,7 @@ spring:
         format_sql: true
     #        default_batch_fetch_size: 10
     defer-datasource-initialization: true
-    open-in-view: true
+    open-in-view: false
 
   servlet:
     multipart:

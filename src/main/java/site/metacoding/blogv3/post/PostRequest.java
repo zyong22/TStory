@@ -9,11 +9,13 @@ public class PostRequest {
         private Integer categoryId;
         private String content;
         private String title;
+
+        public AddPostDTO(Integer categoryId, String content, String title) {
+            this.categoryId = categoryId;
+            this.content = content;
+            this.title = title;
+        }
     }
 
-    // 게시글 + 댓글
-    @Data
-    public static class PostWithReplyDTO {
 
-    }
 }

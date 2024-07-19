@@ -22,6 +22,12 @@ public class PostController {
     private final CategoryService categoryService;
     private final HttpSession session;
 
+    // 수정하기
+    @PostMapping("/post/update")
+    public void update() {
+
+    }
+
     // 상세보기
     @GetMapping("/post/open/{postId}")
     public String openPost(@PathVariable int postId, Model model) {
@@ -33,19 +39,15 @@ public class PostController {
 
     // list폼 열기
     @GetMapping("/list-form")
-    public String postList(Model model, @PageableDefault(size = 5) Pageable pageable) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        Page<Post> postPage = postService.findPost(sessionUser.getId(), pageable);
-        model.addAttribute("postPage", postPage);
-
+    public String postList() {
         return "/post/list";
     }
 
     // 열어버리면서 바로 그려버리기, 난 이렇게 하고 싶었어..
     @GetMapping("/list-form/ajax")
-    public @ResponseBody Page<Post> postListAjax(Model model, @PageableDefault(size = 5) Pageable pageable) {
+    public @ResponseBody Page<PostResponse.UserPostDTO> postListAjax(Model model, @PageableDefault(size = 5) Pageable pageable) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Page<Post> postPage = postService.findPost(sessionUser.getId(), pageable);
+        Page<PostResponse.UserPostDTO> postPage = postService.findPost(sessionUser.getId(), pageable);
 
         return postPage; // json 컨버팅(lazy loading) -> buffer에 담아서 응답!!
     }

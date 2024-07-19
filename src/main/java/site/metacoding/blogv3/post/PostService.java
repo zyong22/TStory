@@ -45,10 +45,10 @@ public class PostService {
                 .build());
     }
 
-    // 게시글 찾아오기
+    // 유저 게시글 찾아오기
     @Transactional
-    public Page<Post> findPost(Integer id, Pageable pageable) {
-        Page<Post> posts = postRepository.findByUserId(id, pageable);
+    public Page<PostResponse.UserPostDTO> findPost(Integer id, Pageable pageable) {
+        Page<PostResponse.UserPostDTO> posts = postRepository.findByUserId(id, pageable);
 
         return posts;
     }
