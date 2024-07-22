@@ -18,4 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
         SELECT p FROM Post p LEFT JOIN FETCH p.replyList WHERE p.id = :postId
 """)
     Post findByPostWithReply(Integer postId);
+
+    // 게시글 ID와 사용자 ID를 기반으로 게시글 삭제
+    void deleteByIdAndUserId(Integer postId, Integer userId);
 }

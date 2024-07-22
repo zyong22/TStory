@@ -62,4 +62,23 @@ public class PostService {
 
         return new PostResponse.PostDetailDTO(post, replies);
     }
+
+    // 게시글 수정
+    @Transactional
+    public void updatePost(Integer id, PostRequest.UpdatePostDTO updatePostDTO) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("회원 정보가 존재하지 않습니다."));
+
+        postRepository.save(Post.builder()
+                .user(user)
+                .id(updatePostDTO.getPostId())
+                .title(updatePostDTO.getNewTitle())
+                .content(updatePostDTO.getNewContent())
+                .build());
+    }
+
+    // 게시글, 유저 아이디 받아서 삭제하기
+    @Transactional
+    public void deletePost(Integer postId, Integer userId) {
+        postRepository.deleteByIdAndUserId(postId, userId);
+    }
 }

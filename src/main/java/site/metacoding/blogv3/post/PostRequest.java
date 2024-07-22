@@ -17,5 +17,17 @@ public class PostRequest {
         }
     }
 
+    // 수정 DTO
+    @Data
+    public static class UpdatePostDTO {
+        private Integer PostId;
+        private String newTitle;
+        private String newContent;
 
+        public UpdatePostDTO(Integer PostId, String newTitle, String newContent) {
+            this.PostId = PostId;
+            this.newTitle = newTitle;
+            this.newContent = newContent;
+        }
+    }
 }

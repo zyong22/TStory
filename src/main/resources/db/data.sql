@@ -32,5 +32,5 @@ INSERT INTO post_tb (id, user_id, category_id, title, content, created_at) VALUE
 INSERT INTO post_tb (id, user_id, category_id, title, content, created_at) VALUES (16, '1', '3', '새로운 취미에 빠졌어요', '코딩이 너무 재밌는걸요?',now());
 
 -- 댓글 테이블
-INSERT INTO reply_tb (id, reply, user_id, post_id, created_at) VALUES (1, '첫번째 댓글 입니다.', 2, 1, now());
-INSERT INTO reply_tb (id, reply, user_id, post_id, created_at) VALUES (2, '두번째 댓글 입니다.', 3, 1, now());
+INSERT INTO reply_tb (id, content, user_id, post_id, created_at) VALUES (1, '첫번째 댓글 입니다.', 2, 1, now());
+INSERT INTO reply_tb (id, content, user_id, post_id, created_at) VALUES (2, '두번째 댓글 입니다.', 3, 1, now());

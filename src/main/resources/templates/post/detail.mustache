@@ -9,17 +9,17 @@
         <h2>{{detail.post.title}}</h2>
     </div>
 
-    <!-- 수정 폼 추가: 기본적으로 숨김 -->
-    <div id="edit-form" style="display: none;" class="my_mt_md_1">
+    <!-- 게시글 수정 폼 -->
+    <div id="update-form" style="display: none;" class="my_mt_md_1">
         <div class="form-group">
-            <label for="edit-title">Title</label>
-            <input type="text" id="edit-title" class="form-control" value="{{detail.post.title}}">
+            <label for="update-title">제목</label>
+            <input type="text" id="update-title" class="form-control" value="{{detail.post.title}}" required>
         </div>
         <div class="form-group">
-            <label for="edit-content">Content</label>
-            <textarea id="edit-content" class="form-control">{{detail.post.content}}</textarea>
+            <label for="update-content">내용</label>
+            <textarea id="update-content" class="form-control" required>{{detail.post.content}}</textarea>
         </div>
-        <button id="btn-save" class="btn btn-success">저장</button>
+        <button id="btn-update" class="btn btn-success">저장</button>
         <button id="btn-cancel" class="btn btn-secondary">취소</button>
     </div>
 
@@ -29,10 +29,12 @@
         {{{detail.post.content}}}
     </div>
 
+    <br>
+
     <div class="my_post_info_box d-flex">
         <div class="my_post_info">
             <i class="fa-solid fa-heart my_fake_like my_mr_sm_1" id="heart-1"></i>
-            by <b>유저네임</b> <span class="my_text_body_sm">날짜</span>
+            by <b>{{detail.post.userName}}</b> <span class="my_text_body_sm">{{detail.post.createdAt}}</span>
         </div>
     </div>
 
@@ -42,44 +44,164 @@
     </div>
 
     <br />
+
+    <hr>
+
+    <!-- 댓글 -->
+    <div class="card mt-3">
+        <!-- 댓글등록 -->
+        <div class="card-body">
+            <form id="reply-form">
+                <input type="hidden" id="postId" name="postId" value="{{detail.post.id}}">
+                <textarea id="reply-content" class="form-control" rows="2" name="comment"></textarea>
+                <div class="d-flex justify-content-end">
+                    <button id="reply-btn" class="btn btn-outline-success mt-1">댓글등록</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="card-footer">
+            <b>댓글리스트</b>
+        </div>
+        <!-- 댓글목록 -->
+        <div class="list-group">
+            {{#detail.replies}}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    <div class="px-1 me-1 bg-success text-white rounded">{{userName}}</div>
+                    <div>{{content}}</div>
+                </div>
+                <form>
+                    <input type="hidden" id="replyId" name="replyId" value="{{id}}">
+                    <button class="update-btn" id="reply-update-btn">수정</button>
+                    <button class="delete-btn" id="reply-delete-btn">삭제</button>
+                </form>
+            </div>
+            {{/detail.replies}}
+
+        </div>
+    </div>
 </div>
 
+<br>
+
 <script>
-    $(document).ready(function() {
-        // 수정 버튼 클릭 시 폼 표시
-        $('#btn-edit').click(function(e) {
-            e.preventDefault();
-            $('#edit-form').show();
-            $('.my_post_detail_content').hide(); // 본문 숨김
-            $('.my_post_detail_title').hide();   // 제목 숨김
-            $(this).hide(); // 수정 버튼 숨김
-        });
+    // 댓글 삭제
+    $('#reply-delete-btn').click(async function() {
+        const replyId = $("#replyId").val();
+        const confirmed = confirm("정말 삭제하시겠습니까?");
+        if (confirmed) {
+            try {
+                let response = await fetch(`/reply/delete/${replyId}`, {
+                    method: 'DELETE'
+                });
 
-        // 취소 버튼 클릭 시 폼 숨기고 기존 내용 복원
-        $('#btn-cancel').click(function(e) {
-            e.preventDefault();
-            $('#edit-form').hide();
-            $('.my_post_detail_content').show(); // 본문 보이기
-            $('.my_post_detail_title').show();   // 제목 보이기
-            $('#btn-edit').show(); // 수정 버튼 보이기
-        });
+                if (response.ok) {
+                    let responseBody = await response.json();
+                    alert(responseBody.message || '삭제 완료.');
+                    location.reload();
+                }
 
-        // 저장 버튼 클릭 시 변경사항 저장
-        $('#btn-save').click(function(e) {
-            e.preventDefault();
-            var newTitle = $('#edit-title').val();
-            var newContent = $('#edit-content').val();
+            } catch (e) {
+                alert(e.message || '삭제 실패.');
+            }
+        }
 
-            // 여기에 서버로 변경 사항을 전송하는 AJAX 요청 추가
+    // 댓글 등록
+    $('#reply-btn').click(async function(e) {
+        e.preventDefault(); // 폼 제출 방지
 
-            // 성공적으로 저장된 경우 UI 업데이트
-            $('.my_post_detail_title h2').text(newTitle);
-            $('.my_post_detail_content').html(newContent); // innerHTML 사용하여 HTML content 반영
-            $('#edit-form').hide();
-            $('.my_post_detail_content').show(); // 본문 보이기
-            $('.my_post_detail_title').show();   // 제목 보이기
-            $('#btn-edit').show(); // 수정 버튼 보이기
-        });
+        const data = {
+            postId: $('#postId').val(),
+            content: $('#reply-content').val()
+        }
+
+        try {
+            let response = await fetch(`/reply/save`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            let responseBody = await response.json();
+            alert(responseBody.message || '댓글 등록 완료.');
+            location.reload();
+        } catch (e) {
+            alert(e.message || '댓글 등록 실패.');
+        }
+    });
+
+    // 게시글 삭제
+    $('#btn-delete').click(async function () {
+        // 삭제 확인 대화상자
+        const confirmed = confirm("정말 삭제하시겠습니까?");
+        if (confirmed) {
+            // 사용자 확인 후 삭제 요청
+            const postId = {{detail.post.id}};
+
+            try {
+                // 삭제 요청 보내기
+                let response = await fetch(`/post/delete/${postId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error('삭제 요청이 실패했습니다.');
+                }
+
+                let responseBody = await response.json();
+                alert(responseBody.message || '삭제 완료.');
+                location.href = '/list-form';
+            } catch (e) {
+                alert(e.message || '삭제 실패.');
+            }
+        }
+    });
+
+    // 수정 버튼 클릭 시 폼 표시
+    $('#btn-edit').click(function (e) {
+        e.preventDefault();
+        $('#update-form').show();
+        $('.my_post_detail_content').hide();
+        $('.my_post_detail_title').hide();
+        $(this).hide();
+    });
+
+    // 취소 버튼 클릭 시 폼 숨기고 기존 내용 복원
+    $('#btn-cancel').click(function (e) {
+        e.preventDefault();
+        $('#update-form').hide();
+        $('.my_post_detail_content').show();
+        $('.my_post_detail_title').show();
+        $('#btn-edit').show();
+    });
+
+    // 저장
+    $("#btn-update").click(async function () {
+        const data = {
+            postId: {{detail.post.id}},
+            newTitle: $('#update-title').val(),
+            newContent: $('#update-content').val()
+        };
+
+        try {
+            let response = await fetch(`/post/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            let responseBody = await response.json();
+            alert(responseBody.message || '수정 완료.');
+            location.reload();
+        } catch (e) {
+            alert(e.message || '수정 실패.');
+        }
     });
 </script>
 

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +23,27 @@ public class PostController {
     private final CategoryService categoryService;
     private final HttpSession session;
 
-    // 수정하기
-    @PostMapping("/post/update")
-    public void update() {
+    // 삭제
+    @DeleteMapping("/post/delete/{postId}")
+    public ResponseEntity<?> deletePost(@PathVariable Integer postId) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        postService.deletePost(postId, sessionUser.getId());
 
+        return ResponseEntity.ok().body("{\"message\": \"게시글 삭제 완료\"}");
+    }
+
+    // 수정하기
+    @PutMapping("/post/update")
+    public ResponseEntity<?> update(@RequestBody PostRequest.UpdatePostDTO updatePostDTO) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        postService.updatePost(sessionUser.getId(), updatePostDTO);
+
+        return ResponseEntity.ok().body("{\"message\": \"게시글 수정 완료\"}");
     }
 
     // 상세보기
     @GetMapping("/post/open/{postId}")
-    public String openPost(@PathVariable int postId, Model model) {
+    public String openPost(@PathVariable Integer postId, Model model) {
         PostResponse.PostDetailDTO detail = postService.findPostDetail(postId);
         model.addAttribute("detail", detail);
 

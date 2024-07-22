@@ -4,6 +4,8 @@ import lombok.Data;
 import site.metacoding.blogv3.reply.Reply;
 import site.metacoding.blogv3.user.User;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,26 +43,35 @@ public class PostResponse {
         @Data
         public static class PostDTO {
             private Integer id;
+            private String userName;
             private String title;
             private String content;
+            private String  createdAt;
 
             public PostDTO(Post post) {
                 this.id = post.getId();
+                this.userName = post.getUser().getUsername();
                 this.title = post.getTitle();
                 this.content = post.getContent();
+                this.createdAt = formatDate(post.getCreatedAt());
+            }
+
+            private String formatDate(LocalDateTime dateTime) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return dateTime.format(formatter);
             }
         }
 
         @Data
         public static class ReplyDTO {
             private Integer id;
-            private Integer userId;
-            private String reply;
+            private String userName;
+            private String content;
 
             public ReplyDTO(Reply reply) {
                 this.id = reply.getId();
-                this.reply = reply.getReply();
-                this.userId = reply.getUser().getId();
+                this.content = reply.getContent();
+                this.userName = reply.getUser().getUsername();
             }
         }
     }
