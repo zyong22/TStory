@@ -47,6 +47,9 @@ public class PostController {
         PostResponse.PostDetailDTO detail = postService.findPostDetail(postId);
         model.addAttribute("detail", detail);
 
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        model.addAttribute("user", sessionUser);
+
         return "/post/detail";
     }
 

@@ -65,11 +65,13 @@ public class PostResponse {
         @Data
         public static class ReplyDTO {
             private Integer id;
+            private Integer userId;
             private String userName;
             private String content;
 
             public ReplyDTO(Reply reply) {
                 this.id = reply.getId();
+                this.userId = reply.getUser().getId();
                 this.content = reply.getContent();
                 this.userName = reply.getUser().getUsername();
             }

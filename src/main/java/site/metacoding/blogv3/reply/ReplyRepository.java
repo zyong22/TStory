@@ -7,6 +7,4 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Integer> {
     List<Reply> findByPostId(Integer postId);
 
-    // 삭제하기
-    void deleteByIdAndUserId(Integer replyId, Integer id);
 }

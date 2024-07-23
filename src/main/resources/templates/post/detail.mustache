@@ -1,7 +1,12 @@
 {{>/layout/main-header}}
 
 <div class="container">
-    <input id="postId" type="hidden" value="1" />
+    <input id="postId" type="hidden" value="{{detail.post.id}}" />
+
+    <!-- 세션 유저 아이디 -->
+    {{#user}}
+    <input type="hidden" id="loginUserId" value="{{user.id}}">
+    {{/user}}
     <input id="pageOwnerId" type="hidden" value="1" />
     <input id="my-loveId" type="hidden" value="1">
 
@@ -39,6 +44,7 @@
     </div>
 
     <div class="my_mt_md_1">
+
         <a class="btn btn-outline-success" id="btn-edit" href="#">수정</a>
         <button id="btn-delete" class="btn btn-outline-danger">삭제</button>
     </div>
@@ -52,10 +58,9 @@
         <!-- 댓글등록 -->
         <div class="card-body">
             <form id="reply-form">
-                <input type="hidden" id="postId" name="postId" value="{{detail.post.id}}">
                 <textarea id="reply-content" class="form-control" rows="2" name="comment"></textarea>
                 <div class="d-flex justify-content-end">
-                    <button id="reply-btn" class="btn btn-outline-success mt-1">댓글등록</button>
+                    <button id="reply-save-btn" class="btn btn-outline-success mt-1">댓글등록</button>
                 </div>
             </form>
         </div>
@@ -68,14 +73,27 @@
         <div class="list-group">
             {{#detail.replies}}
             <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                <!-- 댓글 수정 폼 -->
+                <div class="update-form-container" style="display: none; position: absolute; top: 0; left: 0; width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.9); border: 1px solid #ddd; z-index: 10;">
+                    <div class="form-group">
+                        <label for="update-content-{{id}}">내용</label>
+                        <textarea id="update-content-{{id}}" class="form-control" required>{{content}}</textarea>
+                    </div>
+                    <button class="btn btn-success save-update-btn" data-id="{{id}}">저장</button>
+                    <button class="btn btn-secondary cancel-update-btn" data-id="{{id}}">취소</button>
+                </div>
+
                 <div class="d-flex">
                     <div class="px-1 me-1 bg-success text-white rounded">{{userName}}</div>
                     <div>{{content}}</div>
                 </div>
                 <form>
+                    <!-- 댓글 아이디, 댓글 단 유저 아이디 -->
                     <input type="hidden" id="replyId" name="replyId" value="{{id}}">
-                    <button class="update-btn" id="reply-update-btn">수정</button>
-                    <button class="delete-btn" id="reply-delete-btn">삭제</button>
+                    <input type="hidden" id="userId" name="userId" value="{{userId}}">
+                    <button type="button" class="update-btn" id="reply-update-btn">수정</button>
+                    <button type="button" class="delete-btn" id="reply-delete-btn">삭제</button>
                 </form>
             </div>
             {{/detail.replies}}
@@ -87,14 +105,105 @@
 <br>
 
 <script>
+    // 댓글 수정 폼 표시
+    $(document).on('click', '.update-btn', function() {
+        const listItem = $(this).closest('.list-group-item');
+        const updateForm = listItem.find('.update-form-container');
+        const commentContent = listItem.find('.d-flex');
+
+        // 기존 댓글 내용 숨기기
+        commentContent.hide();
+
+        // 수정 폼 표시
+        updateForm.show();
+    });
+
+    // 댓글 수정 취소
+    $(document).on('click', '.cancel-update-btn', function() {
+        const listItem = $(this).closest('.list-group-item');
+        const updateForm = listItem.find('.update-form-container');
+        const commentContent = listItem.find('.d-flex');
+
+        // 수정 폼 숨기기
+        updateForm.hide();
+
+        // 기존 댓글 내용 다시 표시
+        commentContent.show();
+    });
+
+    // 댓글 수정
+    $(document).on('click', '.save-update-btn', async function() {
+        const listItem = $(this).closest('.list-group-item');
+        const replyId = listItem.find('input[name="replyId"]').val();
+        const newContent = listItem.find('textarea').val();
+        const postId = $("#postId").val();
+
+        const data = {
+            replyId: replyId,
+            newContent: newContent,
+            postId: postId
+        };
+
+        try {
+            let response = await fetch(`/reply/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            let responseBody = await response.json();
+            alert(responseBody.message || '수정 완료.');
+            location.reload();
+        } catch (e) {
+            alert(e.message || '수정 실패.');
+        }
+    });
+
+    // 수정, 삭제 숨기기/보이기
+    $(document).ready(function() {
+        const loginUserId = $('#loginUserId').val();
+
+        // 모든 댓글 항목을 찾습니다.
+        $('.list-group-item').each(function() {
+            // 댓글 작성자 ID
+            const replyUserId = $(this).find('input[name="userId"]').val();
+
+            const updateButton = $(this).find('.update-btn');
+            const deleteButton = $(this).find('.delete-btn');
+
+            if (replyUserId === loginUserId) {
+                updateButton.show();
+                deleteButton.show();
+            } else {
+                updateButton.hide();
+                deleteButton.hide();
+            }
+        });
+    });
+
     // 댓글 삭제
-    $('#reply-delete-btn').click(async function() {
-        const replyId = $("#replyId").val();
+    $(document).on('click', '.delete-btn', async function() {
+        const listItem = $(this).closest('.list-group-item');
+        const replyId = listItem.find('input[name="replyId"]').val();
+        const userId = listItem.find('input[name="userId"]').val();
+        const postId = $("#postId").val();
+
+        const data = {
+            replyId: replyId,
+            userId: userId,
+            postId: postId
+        };
         const confirmed = confirm("정말 삭제하시겠습니까?");
         if (confirmed) {
             try {
-                let response = await fetch(`/reply/delete/${replyId}`, {
-                    method: 'DELETE'
+                let response = await fetch(`/reply/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
                 });
 
                 if (response.ok) {
@@ -107,13 +216,14 @@
                 alert(e.message || '삭제 실패.');
             }
         }
+    });
 
     // 댓글 등록
-    $('#reply-btn').click(async function(e) {
+    $('#reply-save-btn').click(async function(e) {
         e.preventDefault(); // 폼 제출 방지
 
         const data = {
-            postId: $('#postId').val(),
+            postId: {{detail.post.id}},
             content: $('#reply-content').val()
         }
 
@@ -179,7 +289,7 @@
         $('#btn-edit').show();
     });
 
-    // 저장
+    // 수정하기
     $("#btn-update").click(async function () {
         const data = {
             postId: {{detail.post.id}},
@@ -203,6 +313,7 @@
             alert(e.message || '수정 실패.');
         }
     });
+
 </script>
 
 

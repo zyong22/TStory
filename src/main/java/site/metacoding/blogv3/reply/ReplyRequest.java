@@ -15,4 +15,20 @@ public class ReplyRequest {
             this.content = content;
         }
     }
+
+    // 댓글 삭제 DTO
+    @Data
+    public static class DeleteReplyDTO {
+        private Integer postId;
+        private Integer userId;
+        private Integer replyId;
+    }
+
+    // 댓글 수정 DTO
+    @Data
+    public static class UpdateReplyDTO {
+        private Integer postId;
+        private Integer replyId;
+        private String newContent;
+    }
 }
