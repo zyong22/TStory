@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import site.metacoding.blogv3.category.Category;
 import site.metacoding.blogv3.category.CategoryService;
+import site.metacoding.blogv3.reply.ReplyResponse;
 import site.metacoding.blogv3.user.User;
 
 import java.util.List;
@@ -22,6 +23,15 @@ public class PostController {
     private final PostService postService;
     private final CategoryService categoryService;
     private final HttpSession session;
+
+    // 메인
+    @GetMapping("/")
+    public String index(Model model) {
+        List<PostResponse.MainPageDTO> mainPageList = postService.findAllPost();
+        model.addAttribute("mainPageList", mainPageList);
+
+        return "main";
+    }
 
     // 삭제
     @DeleteMapping("/post/delete/{postId}")

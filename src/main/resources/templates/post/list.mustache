@@ -46,7 +46,7 @@
     async function download(page) {
         let response = await fetch("/list-form/ajax?page="+page);
         let responseJson = await response.json();
-        console.log(responseJson.content);
+
         return responseJson.content;
     }
 

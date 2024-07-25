@@ -2,16 +2,29 @@ package site.metacoding.blogv3.reply;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import site.metacoding.blogv3.user.User;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class ReplyController {
     private final ReplySecvice replySecvice;
     private final HttpSession session;
+
+    // 상세보기 -> 댓글 불러오기
+    @GetMapping("/reply/list/{postId}")
+    public @ResponseBody List<ReplyResponse.ReplyDTO> openReplies(@PathVariable Integer postId) {
+        List<ReplyResponse.ReplyDTO> replies = replySecvice.findPostWithReplies(postId);
+
+        return replies;
+    }
 
     @PutMapping("/reply/update")
     public ResponseEntity<?> updateReply(@RequestBody ReplyRequest.UpdateReplyDTO updateReplyDTO) {

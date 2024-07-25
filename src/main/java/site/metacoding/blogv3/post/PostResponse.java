@@ -11,7 +11,29 @@ import java.util.List;
 
 public class PostResponse {
 
-    // 유저 게시글 리스트 DTO
+    @Data
+    public static class MainPageDTO {
+        private Integer id;
+        private String title;
+        private String content;
+        private String userName;
+        private LocalDateTime createdAt;
+
+        public MainPageDTO(Integer id, String title, String content, String userName, LocalDateTime createdAt) {
+            this.id = id;
+            this.title = title;
+            this.content = content;
+            this.userName = userName;
+            this.createdAt = createdAt;
+        }
+
+        public String getFormattedDate() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return this.createdAt.format(formatter);
+        }
+    }
+
+    // 유저 게시글, 리스트 DTO
     @Data
     public static class UserPostDTO {
         private Integer id;
@@ -31,13 +53,9 @@ public class PostResponse {
     @Data
     public static class PostDetailDTO {
         private PostDTO post;
-        private List<ReplyDTO> replies = new ArrayList<>();
 
         public PostDetailDTO(Post post, List<Reply> replies) {
             this.post = new PostDTO(post);
-            this.replies = replies.stream()
-                    .map(ReplyDTO::new)
-                    .toList();
         }
 
         @Data
@@ -59,21 +77,6 @@ public class PostResponse {
             private String formatDate(LocalDateTime dateTime) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 return dateTime.format(formatter);
-            }
-        }
-
-        @Data
-        public static class ReplyDTO {
-            private Integer id;
-            private Integer userId;
-            private String userName;
-            private String content;
-
-            public ReplyDTO(Reply reply) {
-                this.id = reply.getId();
-                this.userId = reply.getUser().getId();
-                this.content = reply.getContent();
-                this.userName = reply.getUser().getUsername();
             }
         }
     }

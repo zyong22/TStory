@@ -12,6 +12,7 @@ import site.metacoding.blogv3.reply.ReplyRepository;
 import site.metacoding.blogv3.user.User;
 import site.metacoding.blogv3.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,6 +74,7 @@ public class PostService {
                 .id(updatePostDTO.getPostId())
                 .title(updatePostDTO.getNewTitle())
                 .content(updatePostDTO.getNewContent())
+                .createdAt(LocalDateTime.now())
                 .build());
     }
 
@@ -80,5 +82,12 @@ public class PostService {
     @Transactional
     public void deletePost(Integer postId, Integer userId) {
         postRepository.deleteByIdAndUserId(postId, userId);
+    }
+
+    // 메인 페이지에 랜덤으로 뿌릴거
+    public List<PostResponse.MainPageDTO> findAllPost() {
+        List<PostResponse.MainPageDTO> list = postRepository.findAllPost();
+
+        return list;
     }
 }

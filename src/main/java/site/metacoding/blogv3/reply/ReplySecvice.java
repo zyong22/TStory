@@ -1,6 +1,8 @@
 package site.metacoding.blogv3.reply;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.metacoding.blogv3.post.Post;
@@ -9,6 +11,7 @@ import site.metacoding.blogv3.user.User;
 import site.metacoding.blogv3.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -52,5 +55,12 @@ public class ReplySecvice {
                 .content(updateReplyDTO.getNewContent())
                 .createdAt(LocalDateTime.now())
                 .build());
+    }
+
+    @Transactional
+    public List<ReplyResponse.ReplyDTO> findPostWithReplies(Integer postId) {
+        List<ReplyResponse.ReplyDTO> replies = replyRepository.findPostWithReplies(postId);
+
+        return replies;
     }
 }
