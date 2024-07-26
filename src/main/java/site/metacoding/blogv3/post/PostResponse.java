@@ -16,13 +16,15 @@ public class PostResponse {
         private Integer id;
         private String title;
         private String content;
+        private Integer userId;
         private String userName;
         private LocalDateTime createdAt;
 
-        public MainPageDTO(Integer id, String title, String content, String userName, LocalDateTime createdAt) {
+        public MainPageDTO(Integer id, String title, String content, Integer userId, String userName, LocalDateTime createdAt) {
             this.id = id;
             this.title = title;
             this.content = content;
+            this.userId = userId;
             this.userName = userName;
             this.createdAt = createdAt;
         }

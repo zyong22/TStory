@@ -22,6 +22,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     // 게시글 ID와 사용자 ID를 기반으로 게시글 삭제
     void deleteByIdAndUserId(Integer postId, Integer userId);
 
-    @Query("select new site.metacoding.blogv3.post.PostResponse$MainPageDTO(p.id, p.title, p.content, p.user.username, p.createdAt) from Post p ORDER BY rand() limit 8")
+    @Query("select new site.metacoding.blogv3.post.PostResponse$MainPageDTO(p.id, p.title, p.content, p.user.id, p.user.username, p.createdAt) from Post p ORDER BY rand() limit 8")
     List<PostResponse.MainPageDTO> findAllPost();
 }

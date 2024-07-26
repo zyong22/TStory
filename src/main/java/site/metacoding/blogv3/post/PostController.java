@@ -63,17 +63,26 @@ public class PostController {
         return "/post/detail";
     }
 
-    // list폼 열기
-    @GetMapping("/list-form")
-    public String postList() {
+    // 다른사람 게시글 리스트 열기
+    @GetMapping("/user/post/{userId}")
+    public String anotherUserPost(@PathVariable Integer userId, Model model) {
+        model.addAttribute("userId", userId);
+
         return "/post/list";
     }
 
-    // 열어버리면서 바로 그려버리기, 난 이렇게 하고 싶었어..
-    @GetMapping("/list-form/ajax")
-    public @ResponseBody Page<PostResponse.UserPostDTO> postListAjax(Model model, @PageableDefault(size = 5) Pageable pageable) {
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        Page<PostResponse.UserPostDTO> postPage = postService.findPost(sessionUser.getId(), pageable);
+    // 내 게시글 리스트 열기
+    @GetMapping("/list/form/{userId}")
+    public String postList(@PathVariable Integer userId, Model model) {
+        model.addAttribute("userId", userId);
+        
+        return "/post/list";
+    }
+
+    // 리스트 불러오기
+    @GetMapping("/list/load/{userId}")
+    public @ResponseBody Page<PostResponse.UserPostDTO> postListAjax(@PathVariable Integer userId, Model model, @PageableDefault(size = 5) Pageable pageable) {
+        Page<PostResponse.UserPostDTO> postPage = postService.findPost(userId, pageable);
 
         return postPage; // json 컨버팅(lazy loading) -> buffer에 담아서 응답!!
     }

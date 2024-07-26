@@ -2,9 +2,12 @@
 INSERT INTO user_tb (id, username, password, email, created_at)
 VALUES (1, 'ssar', '1234', 'ssar@nate.com', now());
 INSERT INTO user_tb (id, username, password, email, created_at)
-VALUES (2, 'qwer', '123', '123@nate.com', now());
+VALUES (2, 'qwer', '1234', '123@nate.com', now());
 INSERT INTO user_tb (id, username, password, email, created_at)
-VALUES (3, 'dragon', '1234', 'dragon@nate.com', now());
+VALUES (3, 'dragon', '1234', 'dragon@nate.com', DATEADD('DAY', -88, CURRENT_TIMESTAMP));
+
+
+
 
 -- 카테고리 테이블
 INSERT INTO category_tb (category_id, user_id, category_name, created_at)
@@ -22,6 +25,11 @@ INSERT INTO category_tb (category_id, user_id, category_name, created_at)
 VALUES ('5', '2', '다이어트', now());
 INSERT INTO category_tb (category_id, user_id, category_name, created_at)
 VALUES ('6', '2', '운동', now());
+
+INSERT INTO category_tb (category_id, user_id, category_name, created_at)
+VALUES ('8', '3', '여행', now());
+INSERT INTO category_tb (category_id, user_id, category_name, created_at)
+VALUES ('9', '3', '일상', now());
 
 -- 게시글 테이블
 -- 1번 유저 게시글
@@ -66,6 +74,15 @@ VALUES (17, 2, 4, '여름 휴가 계획', '올해 여름 휴가 계획을 세우
        (20, 2, 4, '독서 추천', '최근 읽은 책 중에서 추천할 만한 책들을 소개합니다.', '2024-07-01 09:15:00'),
        (21, 2, 4, '주말 산책 코스', '주말에 다녀온 산책 코스를 소개합니다. 자연경관이 정말 아름다웠어요.', '2024-07-05 16:00:00'),
        (22, 2, 4, '스포츠 경기 관람 후기', '어제 다녀온 스포츠 경기 관람 후기를 남깁니다. 정말 흥미진진했어요.', '2024-07-10 20:20:00');
+
+-- 3번 유저 게시글
+INSERT INTO post_tb (id, user_id, category_id, title, content, created_at)
+VALUES (23, 3, 8, '겨울 여행지 추천', '겨울에 가기 좋은 여행지를 추천합니다. 따뜻한 휴양지를 찾아보세요.', '2024-07-12 11:00:00'),
+       (24, 3, 9, '취미 생활 공유', '요즘 새로 시작한 취미에 대해 이야기해볼게요. 정말 재미있어요!', '2024-07-14 13:30:00'),
+       (25, 3, 9, '최고의 커피 맛집', '최근에 방문한 커피 맛집 중에서 최고였던 곳을 소개합니다.', '2024-07-16 15:45:00'),
+       (26, 3, 9, '기술 서적 리뷰', '최근에 읽은 기술 서적에 대한 리뷰를 공유합니다. 많은 도움이 되었어요.', '2024-07-18 17:20:00'),
+       (27, 3, 8, '주말 등산 후기', '주말에 다녀온 등산 후기입니다. 상쾌한 공기와 멋진 풍경이 인상적이었어요.', '2024-07-20 09:00:00'),
+       (28, 3, 9, '새로운 게임 리뷰', '새로 출시된 게임을 플레이해봤습니다. 리뷰를 남겨봅니다.', '2024-07-22 19:40:00');
 
 -- 댓글 테이블
 -- 16번 게시글 댓글
