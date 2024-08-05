@@ -3,10 +3,19 @@
 <div class="container">
     <div class="d-flex justify-content-end my_mb_sm_1">
 
-        <a href="/write-form" class="my_atag_none">
-            <div class="my_icon_rounded_btn d-flex justify-content-center align-items-center"><i
-                    class="fa-solid fa-pencil"></i></div>
-        </a>
+        {{#isCurrentUser}}
+            <a href="/write-form" class="my_atag_none">
+                <div class="my_icon_rounded_btn d-flex justify-content-center align-items-center"><i
+                        class="fa-solid fa-pencil"></i></div>
+            </a>
+        {{/isCurrentUser}}
+        {{^isCurrentUser}}
+            <a href="/subscribe" class="my_atag_none">
+                <div class="my_icon_rounded_btn d-flex justify-content-center align-items-center"><i
+                        class="fa-solid fa-bell"></i></div>
+            </a>
+        {{/isCurrentUser}}
+
     </div>
     <div class="my_post_list" id="my-post-list">
         <!-- 여기에 들어감 -->
@@ -35,7 +44,7 @@
             page++;
             let posts = await download(page);
 
-            posts.forEach(post=>{
+            posts.forEach(post => {
                 let card = cardRender(post);
                 $("#my-post-list").append(card);
             });
@@ -43,7 +52,7 @@
     });
 
     async function download(page) {
-        let response = await fetch("/list/load/{{userId}}?page="+page);
+        let response = await fetch("/list/load/{{userId}}?page=" + page);
         let responseJson = await response.json();
 
         return responseJson.content;

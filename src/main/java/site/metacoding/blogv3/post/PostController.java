@@ -63,21 +63,27 @@ public class PostController {
         return "/post/detail";
     }
 
-    // 다른사람 게시글 리스트 열기
+    // 게시글 리스트 열기
     @GetMapping("/user/post/{userId}")
     public String anotherUserPost(@PathVariable Integer userId, Model model) {
+
+        // 유저 아이디랑 세션 유저 아이디 일치 하는지 확인용
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        boolean isCurrentUser = sessionUser != null && sessionUser.getId().equals(userId);
+
         model.addAttribute("userId", userId);
+        model.addAttribute("isCurrentUser", isCurrentUser);
 
         return "/post/list";
     }
 
     // 내 게시글 리스트 열기
-    @GetMapping("/list/form/{userId}")
-    public String postList(@PathVariable Integer userId, Model model) {
-        model.addAttribute("userId", userId);
-        
-        return "/post/list";
-    }
+//    @GetMapping("/list/form/{userId}")
+//    public String postList(@PathVariable Integer userId, Model model) {
+//        model.addAttribute("userId", userId);
+//
+//        return "/post/list";
+//    }
 
     // 리스트 불러오기
     @GetMapping("/list/load/{userId}")
