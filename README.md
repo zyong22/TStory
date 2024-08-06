@@ -1,4 +1,4 @@
-# 스프링부트 JPA 블로그 V3 - GREEN Computer
+# Tistory 프로젝트
 
 ### 1. 의존성
 - devtools
