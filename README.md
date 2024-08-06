@@ -1,7 +1,4 @@
-# 스프링부트 JPA 블로그 V3 - GREEN Computer
-
-### 시큐리티 테스트 참고
-- https://tecoble.techcourse.co.kr/post/2020-09-30-spring-security-test/
+![image](https://github.com/user-attachments/assets/59b14894-7ee3-40cd-822a-3ad57eae2608)# 스프링부트 JPA 블로그 V3 - GREEN Computer
 
 ### 1. 의존성
 - devtools
@@ -14,8 +11,7 @@
 - https://quilljs.com/
 
 ### 4. ERD
-![Uploading 351917431-eaf40983-3b1d-4ea9-9aec-834378111c6d.png…]()
-
+![image](https://github.com/user-attachments/assets/c87e4928-9263-489a-96f6-0163b4f00764)
 
 ### 5. 주소 요청 이런식으로 해볼까?
 ```txt
