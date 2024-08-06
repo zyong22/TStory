@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/59b14894-7ee3-40cd-822a-3ad57eae2608)# 스프링부트 JPA 블로그 V3 - GREEN Computer
+# 스프링부트 JPA 블로그 V3 - GREEN Computer
 
 ### 1. 의존성
 - devtools
