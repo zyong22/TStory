@@ -9,22 +9,13 @@
 - mustache
 - lombok
 - jpa
-- mariadb
-- security
-- validation
-
-### 2. DB설정
-```sql
-CREATE USER 'green'@'%' IDENTIFIED BY 'green1234';
-CREATE DATABASE greendb;
-GRANT ALL PRIVILEGES ON greendb.* TO 'green'@'%';
-```
-
-### 3. 에디터
+  
+### 2. 에디터
 - https://quilljs.com/
 
-### 4. 댓글
-- https://livere.com/
+### 4. ERD
+![Uploading 351917431-eaf40983-3b1d-4ea9-9aec-834378111c6d.png…]()
+
 
 ### 5. 주소 요청 이런식으로 해볼까?
 ```txt
