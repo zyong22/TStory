@@ -47,29 +47,12 @@
 </tr>
 
 <tr>
-  <td align=center>5. [클라이언트] 결제 취소</td>
-  <td align=center>6. [익스퍼트] 마이페이지에서 예약 만들기</td>
+  <td align=center>5. 댓글 CRUD</td>
+  <td align=center>6. 구독, 구독취소</td>
 </tr>
 <tr>
-  <td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/3f741049-96dd-4375-8c02-d1b1750ddad5"  width="400" height="300"/></td>
-<td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/2b911f11-46be-4afd-9260-0e966b51c1e3"  width="400" height="300"/></tr>
+  <td><img src="https://github.com/user-attachments/assets/ebcd59e2-a551-43a3-aea0-c60f5985e396"  width="400" height="300"/></td>
+<td><img src=""  width="400" height="300"/></tr>
 </tr>
 
-<tr>
-  <td align=center>7. [익스퍼트] 알림</td>
-  <td align=center>8. [클라이언트] 알림</td>
-</tr>
-<tr>
-  <td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/6e38f788-9fe5-4efe-8067-58b3aeb97831"  width="400" height="300"/></td>
-<td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/f17bf6d6-0657-43c3-ab13-03389feaa93a"  width="400" height="300"/></tr>
-</tr>
-
-<tr>
-  <td align=center>9. 채팅 상담</td>
-  <td align=center>10. [클라이언트] 리뷰 작성</td>
-</tr>
-<tr>
-  <td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/c7941e23-331e-40c9-b76d-63bf49ade1af"  width="400" height="300"/></td>
-<td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/3106ced0-39d8-41c3-b142-d7818a71ca16"  width="400" height="300"/></tr>
-</tr>
 </table>
