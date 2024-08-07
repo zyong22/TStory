@@ -33,8 +33,7 @@
   <td align=center>2. [클라이언트] 커뮤니티</td>
 </tr>
 <tr>
-  <td><img src="![Uploading 녹화_2024_08_07_16_20_39_511.gif…]()
-"  width="400" height="300"/></td>
+  <td><img src="https://github.com/user-attachments/assets/271d3fd8-3ea5-4cd2-afa2-7b245f7a9b6c"  width="400" height="300"/></td>
 <td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/ae599112-1c9a-404e-8d84-7e3b4597cbd1"  width="400" height="300"/></tr>
 </tr>
 
