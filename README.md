@@ -38,12 +38,12 @@
 </tr>
 
 <tr>
-  <td align=center>3. [익스퍼트] 로그인 바우처 등록</td>
-  <td align=center>4. [클라이언트] 바우처 결제 및 결제 내역 확인</td>
+  <td align=center>3. 비밀번호 변경</td>
+  <td align=center>4. 게시글 CRUD</td>
 </tr>
 <tr>
-  <td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/556aacec-8726-456a-a0b4-cc902091acfb"  width="400" height="300"/></td>
-<td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/4e2e18c1-7edb-4b3c-aaa5-85fba7842f13"  width="400" height="300"/></tr>
+  <td><img src="https://github.com/user-attachments/assets/83452ac2-9c03-4cde-8883-382923a7a6e8"  width="400" height="300"/></td>
+<td><img src="https://github.com/user-attachments/assets/d28be113-0070-4c4e-ace4-b7ca009a17b8"  width="400" height="300"/></tr>
 </tr>
 
 <tr>
