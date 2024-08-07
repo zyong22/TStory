@@ -30,11 +30,11 @@
 <table style="border: 2px;">
 <tr>
   <td align=center>1. 회원가입</td>
-  <td align=center>2. [클라이언트] 커뮤니티</td>
+  <td align=center>2. 로그인, 로그아웃</td>
 </tr>
 <tr>
   <td><img src="https://github.com/user-attachments/assets/271d3fd8-3ea5-4cd2-afa2-7b245f7a9b6c"  width="400" height="300"/></td>
-<td><img src="https://github.com/Hyeonjeong-JANG/spring-about-me/assets/139729358/ae599112-1c9a-404e-8d84-7e3b4597cbd1"  width="400" height="300"/></tr>
+<td><img src="https://github.com/user-attachments/assets/4388dd3c-8624-4f30-b447-6a418a48b7cd"  width="400" height="300"/></tr>
 </tr>
 
 <tr>
